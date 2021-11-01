@@ -9,7 +9,7 @@
         src="../assets/images/loginimage.jpg"
         class="Login__card--image"
       />
-      <ValidationObserver ref="observer">
+      <ValidationObserver ref="loginObserver">
         <AppInputComponent
           rules="required"
           label="Username"
@@ -41,13 +41,13 @@ export default {
   },
   methods: {
     async login() {
-      const valid = await this.$refs.observer.validate();
+      const valid = await this.$refs.loginObserver.validate();
       console.log("valida", valid);
     },
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .Login {
   display: flex;
   height: 100vh;
@@ -65,10 +65,10 @@ export default {
     box-shadow: -1px 4px 29px -13px rgba(0, 0, 0, 0.64);
     -webkit-box-shadow: -1px 4px 29px -13px rgba(0, 0, 0, 0.64);
     -moz-box-shadow: -1px 4px 29px -13px rgba(0, 0, 0, 0.64);
-    .Login__card--headerwrapper{
+    .Login__card--headerwrapper {
       border-bottom: 3px solid #f8f8f8;
     }
-    .Login__card--image{
+    .Login__card--image {
       width: 50%;
     }
     .Login__Card--btn {

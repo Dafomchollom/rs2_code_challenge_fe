@@ -277,13 +277,13 @@ export default {
   cursor: not-allowed;
   color: rgba(0, 0, 0, 0.85) !important;
 }
-.ant-form-item{
-margin-bottom: 10px;
+.ant-form-item {
+  margin-bottom: 10px;
 }
 .ant-form-item-label {
   width: 100%;
 }
-.ant-form-explain{
+.ant-form-explain {
   text-align: left;
 }
 </style>
