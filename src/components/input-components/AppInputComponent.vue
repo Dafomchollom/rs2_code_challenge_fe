@@ -4,6 +4,8 @@
       slot-scope="{ errors, flags }"
       :label="label"
       :label-col="labelCol"
+      labelAlign="left"
+      layout="vertical"
       :wrapper-col="wrapperCol"
       :validate-status="resolveState({ errors, flags })"
       :help="showErrors ? errors[0] : ''"
@@ -24,16 +26,16 @@
   </ValidationProvider>
 </template>
 <script>
-import Vue from 'vue';
-import { ValidationProvider } from 'vee-validate';
-import FormItem from 'ant-design-vue/lib/form/FormItem';
-import Input from 'ant-design-vue/lib/input';
+import Vue from "vue";
+import { ValidationProvider } from "vee-validate";
+import FormItem from "ant-design-vue/lib/form/FormItem";
+import Input from "ant-design-vue/lib/input";
 
 Vue.component(FormItem.name, FormItem);
 Vue.component(Input.name, Input);
 
 export default {
-  name: 'AppInput',
+  name: "AppInput",
   components: {
     ValidationProvider,
   },
@@ -47,23 +49,23 @@ export default {
   props: {
     vid: {
       type: String,
-      default: '',
+      default: "",
     },
     name: {
       type: String,
-      default: '',
+      default: "",
     },
     value: {
       type: [String, Number],
-      default: '',
+      default: "",
     },
     label: {
       type: String,
-      default: '',
+      default: "",
     },
     size: {
       type: String,
-      default: 'default',
+      default: "default",
     },
     rows: {
       type: Number,
@@ -71,11 +73,11 @@ export default {
     },
     type: {
       type: String,
-      default: 'text',
+      default: "text",
     },
     placeholder: {
       type: String,
-      default: '',
+      default: "",
     },
     labelCol: {
       type: Object,
@@ -111,7 +113,7 @@ export default {
     },
     rules: {
       type: [Object, String],
-      default: '',
+      default: "",
     },
     showErrors: {
       type: Boolean,
@@ -121,7 +123,7 @@ export default {
       type: Object,
       default: () => {
         return {
-          delimiter: '',
+          delimiter: "",
           uppercase: true,
           blocks: [9000],
         };
@@ -158,15 +160,15 @@ export default {
   },
   data() {
     return {
-      innerValue: '',
+      innerValue: "",
     };
   },
   computed: {
     classObject() {
       return {
-        'ant-input-lg': this.size === 'large',
-        'ant-input-sm': this.size === 'small',
-        'ant-input-disabled': this.disabled,
+        "ant-input-lg": this.size === "large",
+        "ant-input-sm": this.size === "small",
+        "ant-input-disabled": this.disabled,
       };
     },
   },
@@ -174,14 +176,14 @@ export default {
     // Handles internal model changes.
     innerValue(newVal) {
       this.$nextTick(() => {
-        this.$emit('input', newVal);
+        this.$emit("input", newVal);
       });
     },
     // Handles external model changes.
     value: {
       handler(newVal) {
         if (!newVal) {
-          this.innerValue = '';
+          this.innerValue = "";
           return;
         }
         this.innerValue = newVal;
@@ -193,54 +195,54 @@ export default {
     blurHandler(e) {
       const newVal = e.target.value;
       switch (true) {
-        case !newVal || typeof newVal === 'object':
-          this.innerValue = '';
+        case !newVal || typeof newVal === "object":
+          this.innerValue = "";
           break;
         // NO SPACE ALONE
         case !this.spaceAllowed && this.charAllowed && this.textAllowed:
           this.innerValue = String(newVal)
             .toUpperCase()
             .slice(0, this.limitSize)
-            .replace(this.spaceRegex, '');
+            .replace(this.spaceRegex, "");
           break;
         // NO SPACE, NO SPECIAL CHARACTER
         case !this.spaceAllowed && !this.charAllowed && this.textAllowed:
           this.innerValue = String(newVal)
             .toUpperCase()
             .slice(0, this.limitSize)
-            .replace(this.spaceRegex, '')
-            .replace(this.specialCharacterRegex, '');
+            .replace(this.spaceRegex, "")
+            .replace(this.specialCharacterRegex, "");
           break;
         // NO SPACE, NO SPECIAL CHARACTER, AND NO TEXT
         case !this.spaceAllowed && !this.charAllowed && !this.textAllowed:
           this.innerValue = String(newVal)
             .toUpperCase()
             .slice(0, this.limitSize)
-            .replace(this.spaceRegex, '')
-            .replace(this.specialCharacterRegex, '')
-            .replace(this.textOnlyRegex, '');
+            .replace(this.spaceRegex, "")
+            .replace(this.specialCharacterRegex, "")
+            .replace(this.textOnlyRegex, "");
           break;
         // NO SPACIAL CHARACHER ALONE
         case this.spaceAllowed && !this.charAllowed && this.textAllowed:
           this.innerValue = String(newVal)
             .toUpperCase()
             .slice(0, this.limitSize)
-            .replace(this.specialCharacterRegex, '');
+            .replace(this.specialCharacterRegex, "");
           break;
         // NO SPACIAL CHARACHER, NO TEXT
         case this.spaceAllowed && !this.charAllowed && !this.textAllowed:
           this.innerValue = String(newVal)
             .toUpperCase()
             .slice(0, this.limitSize)
-            .replace(this.specialCharacterRegex, '')
-            .replace(this.textOnlyRegex, '');
+            .replace(this.specialCharacterRegex, "")
+            .replace(this.textOnlyRegex, "");
           break;
         // NO TEXT ALONE
         case this.spaceAllowed && this.charAllowed && !this.textAllowed:
           this.innerValue = String(newVal)
             .toUpperCase()
             .slice(0, this.limitSize)
-            .replace(this.textOnlyRegex, '');
+            .replace(this.textOnlyRegex, "");
           break;
         default:
           this.innerValue = String(newVal)
@@ -248,22 +250,22 @@ export default {
             .slice(0, this.limitSize);
           break;
       }
-      this.$emit('blur', e.target.value);
+      this.$emit("blur", e.target.value);
     },
     resolveState({ errors, flags }) {
       if (errors[0]) {
-        return 'error';
+        return "error";
       }
 
       if (flags.pending) {
-        return 'validating';
+        return "validating";
       }
 
       if (flags.valid) {
-        return 'success';
+        return "success";
       }
 
-      return '';
+      return "";
     },
   },
 };
@@ -274,5 +276,14 @@ export default {
   opacity: 1;
   cursor: not-allowed;
   color: rgba(0, 0, 0, 0.85) !important;
+}
+.ant-form-item{
+margin-bottom: 10px;
+}
+.ant-form-item-label {
+  width: 100%;
+}
+.ant-form-explain{
+  text-align: left;
 }
 </style>
