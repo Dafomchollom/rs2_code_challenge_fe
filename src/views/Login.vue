@@ -11,6 +11,7 @@
       />
       <ValidationObserver ref="loginObserver">
         <AppInputComponent
+          v-model="userObject.username"
           rules="required"
           label="Username"
           name="username"
@@ -18,9 +19,11 @@
           required
         />
         <AppInputComponent
+          v-model="userObject.password"
           rules="required"
           label="Password"
           name="password"
+          type="password"
           colon
           required
         />
@@ -33,16 +36,33 @@
 <script>
 import { ValidationObserver } from "vee-validate";
 import AppInputComponent from "@/components/input-components/AppInputComponent.vue";
+import { BASE_URL } from "../../.env";
+import router from "@/router";
 export default {
   name: "Login",
   components: {
     ValidationObserver,
     AppInputComponent,
   },
+  data() {
+    return {
+      userObject: {
+        username: "",
+        password: "",
+      },
+    };
+  },
   methods: {
     async login() {
       const valid = await this.$refs.loginObserver.validate();
-      console.log("valida", valid);
+      if (valid) {
+        this.axios
+          .get(`${BASE_URL}/login`, this.userObject)
+          .then((response) => {
+            localStorage.setItem("userToken", response.token);
+          });
+        router.push({ name: "Store" });
+      }
     },
   },
 };
